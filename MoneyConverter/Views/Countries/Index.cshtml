@@ -1,0 +1,29 @@
+﻿@model IEnumerable<MoneyConverter.Models.Country>
+
+@{
+    ViewData["Title"] = "Countries";
+}
+<h1>Country</h1>
+<ul>
+
+    @foreach (Country C in Model)
+    {
+        <li>
+            <a asp- controller-"Countries" asp-action="CurrentRate" asp-route-Country="@C.Name">@C.Name</a>
+        </li>
+    }
+
+
+    @* <li>
+        <a asp- controller-"Countries" asp-action= "CurrentRate" asp-route-Country="Canada">Canada</a>
+        </li>
+        <li>
+            <a asp- controller-"Countries" asp-action="CurrentRate" asp-route-Country="United States">United States</a>
+        </li>
+        <li>
+            <a asp- controller-"Countries" asp-action="CurrentRate" asp-route-Country="India">India</a>
+        </li>
+        <li>
+            <a asp- controller-"Countries" asp-action="CurrentRate" asp-route-Country="Austrailia">Austrailia</a>
+        </li>*@
+</ul>
