@@ -1,5 +1,7 @@
 # MoneyConverter
 <h1> Money Converter ASP.NET Site<h1>
+  //here is the Azure link that connects our Web Site
+  https://moneyconverter.azurewebsites.net/
   <p> An application for currency rate  where people can see the current rate of all over the countries as this
       applicatin allows user to see the current currency rate and allow platform to convert specific country
       money to other countries's rate according to their prefrences. As well as they can see the currency 
