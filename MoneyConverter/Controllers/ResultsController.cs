@@ -10,22 +10,23 @@ using MoneyConverter.Models;
 
 namespace MoneyConverter.Controllers
 {
-    public class CountriesController : Controller
+    public class ResultsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CountriesController(ApplicationDbContext context)
+        public ResultsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Countries
+        // GET: Results
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Countries.ToListAsync());
+            var applicationDbContext = _context.Results.Include(r => r.CountryRate);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Countries/Details/5
+        // GET: Results/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,42 @@ namespace MoneyConverter.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
-                .FirstOrDefaultAsync(m => m.CountryId == id);
-            if (country == null)
+            var result = await _context.Results
+                .Include(r => r.CountryRate)
+                .FirstOrDefaultAsync(m => m.ResultId == id);
+            if (result == null)
             {
                 return NotFound();
             }
 
-            return View(country);
+            return View(result);
         }
 
-        // GET: Countries/Create
+        // GET: Results/Create
         public IActionResult Create()
         {
+            ViewData["CountryRateId"] = new SelectList(_context.CountryRates, "CountryRateId", "Name");
             return View();
         }
 
-        // POST: Countries/Create
+        // POST: Results/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CountryId,Name")] Country country)
+        public async Task<IActionResult> Create([Bind("ResultId,Name,CountryId,CountryRateId,Send,Receive")] Result result)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(country);
+                _context.Add(result);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(country);
+            ViewData["CountryRateId"] = new SelectList(_context.CountryRates, "CountryRateId", "Name", result.CountryRateId);
+            return View(result);
         }
 
-        // GET: Countries/Edit/5
+        // GET: Results/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +77,23 @@ namespace MoneyConverter.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries.FindAsync(id);
-            if (country == null)
+            var result = await _context.Results.FindAsync(id);
+            if (result == null)
             {
                 return NotFound();
             }
-            return View(country);
+            ViewData["CountryRateId"] = new SelectList(_context.CountryRates, "CountryRateId", "Name", result.CountryRateId);
+            return View(result);
         }
 
-        // POST: Countries/Edit/5
+        // POST: Results/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CountryId,Name")] Country country)
+        public async Task<IActionResult> Edit(int id, [Bind("ResultId,Name,CountryId,CountryRateId,Send,Receive")] Result result)
         {
-            if (id != country.CountryId)
+            if (id != result.ResultId)
             {
                 return NotFound();
             }
@@ -97,12 +102,12 @@ namespace MoneyConverter.Controllers
             {
                 try
                 {
-                    _context.Update(country);
+                    _context.Update(result);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CountryExists(country.CountryId))
+                    if (!ResultExists(result.ResultId))
                     {
                         return NotFound();
                     }
@@ -113,10 +118,11 @@ namespace MoneyConverter.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(country);
+            ViewData["CountryRateId"] = new SelectList(_context.CountryRates, "CountryRateId", "Name", result.CountryRateId);
+            return View(result);
         }
 
-        // GET: Countries/Delete/5
+        // GET: Results/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +130,31 @@ namespace MoneyConverter.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
-                .FirstOrDefaultAsync(m => m.CountryId == id);
-            if (country == null)
+            var result = await _context.Results
+                .Include(r => r.CountryRate)
+                .FirstOrDefaultAsync(m => m.ResultId == id);
+            if (result == null)
             {
                 return NotFound();
             }
 
-            return View(country);
+            return View(result);
         }
 
-        // POST: Countries/Delete/5
+        // POST: Results/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var country = await _context.Countries.FindAsync(id);
-            _context.Countries.Remove(country);
+            var result = await _context.Results.FindAsync(id);
+            _context.Results.Remove(result);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CountryExists(int id)
+        private bool ResultExists(int id)
         {
-            return _context.Countries.Any(e => e.CountryId == id);
+            return _context.Results.Any(e => e.ResultId == id);
         }
     }
 }
