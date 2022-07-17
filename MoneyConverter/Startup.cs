@@ -36,6 +36,7 @@ namespace MoneyConverter
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            // Google Authentication 
             services.AddAuthentication()
                 .AddGoogle(options => {
                     options.ClientId = Configuration.GetSection("Authentication:Google")["ClientId"];

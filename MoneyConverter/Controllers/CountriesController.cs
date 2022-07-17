@@ -27,7 +27,7 @@ namespace MoneyConverter.Controllers
             return View(await _context.Countries.ToListAsync());
         }
 
-        // GET: Countries/Details/5
+        // GET:   Countries/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,6 +50,7 @@ namespace MoneyConverter.Controllers
         {
             return View();
         }
+
 
         // POST: Countries/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
