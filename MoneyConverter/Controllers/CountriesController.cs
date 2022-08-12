@@ -57,7 +57,7 @@ namespace MoneyConverter.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CountryId,Name")] Country country)
+        public async Task<IActionResult> Create([Bind("CountryId,Name")] Country country, object p)
         {
             if (ModelState.IsValid)
             {

@@ -13,5 +13,7 @@ namespace MoneyConverter.Models
 
         [Required]
         public string Name { get; set; }
+        public object CountryRate { get; set; }
+        public Country Country { get; set; }
     }
 }
