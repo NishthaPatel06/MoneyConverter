@@ -21,7 +21,7 @@ namespace MoneyConverterTest
         private CountriesController _controller;
         private List<Country> _countries = new List<Country>();
         private ICollection selectedCountries;
-        private object Cou;
+        private readonly object Cou;
 
 
         // Arrange

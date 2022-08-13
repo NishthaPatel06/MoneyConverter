@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace MoneyConverter.Models
 {
     public class Result
     {
+        public static NotFoundResult Result { get; set; }
         public int ResultId { get; set; }
 
         [Required]
